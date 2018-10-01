@@ -1,22 +1,92 @@
 version: '3'
-services: null
-mongo: null
-image: 'usuarioDocker/p1gps:db'
-deploy: null
-replicas: 1
-resources: null
-limits: null
-cpus: '0.15'
-memory: 200M
-restart_policy: null
-condition: on-failure
-ports:
-    - '28017:28017'
-    - '27017:27017'
+
+services:
+
+  mongo:
+
+    image: 'usuarioDocker/p1gps:db'
+    
+    deploy: 
+
+      replicas: 1
+
+      resources: 
+
+        limits: 
+	  
+	  cpus: '0.15'
+	  
+	  memory: 200M
+
+      restart_policy: 
+
+	condition: on-failure
+
+    ports:
+    
+      - '28017:28017'
+    
+      - '27017:27017'
+
+    volumes:
+    
+      - 'db-data:/data/db'
+
+  order: 
+
+    image: usuarioDocker/p1gps:order  
+
+    depends_on:
+      
+      - mongo
+    
+    deploy:
+
+      replicas: 1
+
+      resources:
+	
+	limits:
+	
+	  cpus: "0.2"
+
+	  memory: 300M 
+
+      restart_policy:
+
+	condition: on-failure
+   
+    ports:
+	
+      - "8080:8080"
+
+  web:
+
+    image: usuarioDocker/p1gps:web
+
+    deploy:
+
+      replicas: 1
+
+      resources:
+
+        limits:
+
+          cpus: "0.25"
+
+          memory: 300M
+
+      restart_policy:
+
+        condition: on-failure
+
+    ports:
+
+      - "80:8080"
+
+
+
+
 volumes:
-    - 'db-data:/data/db'
-order: null
-depends_on:
-    - mongo
-web: null
-db-data: null
+
+   db-data:
