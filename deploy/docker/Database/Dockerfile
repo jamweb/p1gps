@@ -8,4 +8,4 @@ COPY drop/* usr/local/data/db/
 
 #CMD es lo mismo que ENTRYPOINT pero con otro formato
 
-CMD ["mongod",”--smallfiles”,"—-rest"]
+CMD ["mongod","--smallfiles","--rest"]
